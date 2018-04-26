@@ -1,0 +1,10 @@
+{% if goals %}
+<h1>All Goals</h1>
+{% for goal in goals %}
+<p>{{ goal }}</p>
+{% endfor %}
+</ul>
+{% else %}
+<h2>Goals has not been entered </h2>
+
+{% endif %}
