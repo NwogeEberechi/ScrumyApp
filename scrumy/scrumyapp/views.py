@@ -4,21 +4,18 @@ from .models import ScrumyGoals, GoalStatus
 
 # Create your views here.
 def index(request):
-	return HttpResponse('Hello, world.')
+	goals = ScrumyGoals.objects.all()
+	context = {'goals': goals}
+	return render(request, 'scrumyapp/index.html', context)
 
 def goals(request):
-	goals = ScrumyGoals.objects.filter(status_id=4)
-	output = ''
-	for goal in goals:
-		output += '<p> ' + str(goal) + '</p>'
-	return HttpResponse(output)
+	statusDT = GoalStatus.objects.get(status='DT')
+	goals = statusDT.scrumygoals_set.all()
+	context = {'goals': goals}
+	#goals = ScrumyGoals.objects.filter(status_id=4)
+	return render(request, 'scrumyapp/goals.html', context)
 
 def view_task(request, task_id):
 	goals = ScrumyGoals.objects.filter(task_id=task_id)
-	output = ''
-	if len(goals) == 0:
-		output += '<p> There is no goal with the task_id ' + str(task_id) + '</p>'
-	else:
-		for goal in goals:
-			output += '<p> ' + str(goal) + '</p>'
-	return HttpResponse(output)
+	context = {'goals':goals, 'task_id':task_id}
+	return render(request, 'scrumyapp/dailytask.html', context)
