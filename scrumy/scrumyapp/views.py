@@ -14,7 +14,7 @@ def goals(request):
 	context = {'goals': goals}
 	return render(request, 'scrumyapp/goals.html', context)
 
-def view_task(request, task_id):
+def move_goal(request, task_id):
 	goals = ScrumyGoals.objects.filter(task_id=task_id)
 
 	context = {'goals':goals, 'task_id':task_id}
