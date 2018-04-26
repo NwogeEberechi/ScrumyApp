@@ -1,9 +1,10 @@
-{% if goals %}
+ {% if goals %}
 <ul style="list-style:none;">
     {% for goal in goals %}
     <li>{{ goal }}</li>
     {% endfor %}
 </ul>
 {% else %}
-<h2>There is no goal with the task_id {{task_id}} </h2>
+<h2>There is no goal with daily task status </h2>
+
 {% endif %}
