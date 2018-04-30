@@ -15,7 +15,7 @@ class ScrumyUser(models.Model):
     role = models.CharField(max_length=1, choices=SCRUMY_USER_ROLE)
 
     def __str__(self):
-        return (self.firstname + ' - ' + self.lastname)
+        return (self.firstname + ' ' + self.lastname)
 
 class GoalStatus(models.Model):
     GOAL_STATUS = (
