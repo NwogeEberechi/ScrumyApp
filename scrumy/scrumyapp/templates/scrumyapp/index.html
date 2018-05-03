@@ -1,15 +1,3 @@
- {% if goals %}
-<h1>All Goals</h1>
-<div class="container"></div>
-{% for goal in goals %}
-
-<p>{{ goal }}</p>
-{% endfor %}
-</ul>
-{% else %}
-<h2>Goals has not been entered </h2>
-{% endif %}
-</div>
 <div>
     <table border="2px solid red" padding="10px">
         <thead>
@@ -22,15 +10,29 @@
             <th> Done </th>
         </thead>
         <tbody>
+            {% if users %} {% for user in users %}
             <tr>
                 <td> + </td>
                 <td> {{user}} </td>
                 <td> + </td>
-                <td> {{ user_goals }} </td>
-                <td> </td>
-                <td> </td>
-                <td> </td>
+
+                <td>
+                    {% for goal in user.get_weekly_goals %} {{ goal }} <br> {% endfor %}
+                </td>
+
+                <td>
+                    {% for goal in user.get_daily_goals %} {{ goal }} <br> {% endfor %}
+                </td>
+                <td>
+                    {% for goal in user.get_verified_goals %} {{ goal }} <br> {% endfor %}
+                </td>
+                <td>
+                    {% for goal in user.get_done_goals %} {{ goal }} <br> {% endfor %}
+                </td>
             </tr>
+            {% endfor %} {% else %}
+            <h2>No users found </h2>
+            {% endif %}
         </tbody>
     </table>
 </div>
