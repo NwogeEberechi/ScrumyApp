@@ -12,9 +12,9 @@
         <tbody>
             {% if users %} {% for user in users %}
             <tr>
-                <td> + </td>
+                <td><a href="{% url 'scrumy:add_user' %}">+</a></td>
                 <td> {{user}} </td>
-                <td> + </td>
+                <td> <a href="{% url 'scrumy:add_task' %}">+</a> </td>
 
                 <td>
                     {% for goal in user.get_weekly_goals %} {{ goal }} <br> {% endfor %}
