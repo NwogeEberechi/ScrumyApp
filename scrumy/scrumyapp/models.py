@@ -17,6 +17,18 @@ class ScrumyUser(models.Model):
     def __str__(self):
         return (self.firstname + ' ' + self.lastname)
 
+    def get_weekly_goals(self):
+        return self.scrumygoals_set.filter(status_id=3)
+
+    def get_daily_goals(self):
+        return self.scrumygoals_set.filter(status_id=4)
+
+    def get_verified_goals(self):
+        return self.scrumygoals_set.filter(status_id=1)
+
+    def get_done_goals(self):
+        return self.scrumygoals_set.filter(status_id=2)
+
 class GoalStatus(models.Model):
     GOAL_STATUS = (
         ('V', 'Verified'),
