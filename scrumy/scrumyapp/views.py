@@ -5,11 +5,8 @@ from .forms import AddUserForm
 
 # Create your views here.
 def index(request):
-	goals = ScrumyGoals.objects.all()
-	user = ScrumyUser.objects.get(id=1)
-	statusWT = GoalStatus.objects.get(status='WT')
-	user_goals = statusWT.scrumygoals_set.filter(user_id=1)
-	context = {'goals': goals, 'user': user, 'user_goals':user_goals}
+	users = ScrumyUser.objects.all()
+	context = {'users': users}
 	return render(request, 'scrumyapp/index.html', context)
 
 def dailytask_goals(request):
