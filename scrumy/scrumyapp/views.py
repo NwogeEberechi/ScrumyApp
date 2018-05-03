@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
 from .models import ScrumyGoals, GoalStatus, ScrumyUser
-from .forms import AddUserForm
+from .forms import AddUserForm, AddTaskForm
 
 # Create your views here.
 def index(request):
@@ -28,11 +28,22 @@ def add_user(request):
 		form = AddUserForm(request.POST)
 		if form.is_valid:
 			form.save()
-			return redirect('users')
+			return redirect('scrumy:users')
 	else:
 		form = AddUserForm()
 	context = {'form': form}
 	return render(request, 'scrumyapp/adduser.html', context)
+
+def add_task(request):
+	if request.method =="POST":
+		form = AddTaskForm(request.POST)
+		if form.is_valid:
+			form.save()
+			return redirect('scrumy:users')
+	else:
+		form = AddTaskForm()
+	context = {'form': form}
+	return render(request, 'scrumyapp/addtask.html', context)
 
 def get_users(request):
 	users = ScrumyUser.objects.all()
