@@ -11,3 +11,8 @@ class AddTaskForm(forms.ModelForm):
     class Meta:
         model = ScrumyGoals
         fields = '__all__'
+
+class ChangeTaskStatusForm(forms.ModelForm):
+    class Meta:
+        model = ScrumyGoals
+        fields=['status_id']
