@@ -11,4 +11,5 @@ urlpatterns = [
     path('users/', views.get_users, name='users'),
     path('adduser/', views.add_user, name='add_user'),
     path('addtask/', views.add_task, name='add_task'),
+    path('<int:goal_id>/changestatus/', views.change_task_status, name='change_status'),
 ]
