@@ -1,3 +1,4 @@
+{% extends 'scrumyapp/base.html' %} {% block content %}
 <h2>Add Task </h2>
 <form action="" method="post">
     {% csrf_token %} {% for field in form %}
@@ -9,3 +10,4 @@
 
     <button type="submit">Add Task</button>
 </form>
+{% endblock %}

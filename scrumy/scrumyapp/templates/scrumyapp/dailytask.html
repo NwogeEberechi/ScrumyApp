@@ -1,4 +1,4 @@
- {% if goals %}
+{% extends 'scrumyapp/base.html' %} {% block content %} {% if goals %}
 <ul style="list-style:none;">
     {% for goal in goals %}
     <li>{{ goal }}</li>
@@ -7,4 +7,4 @@
 {% else %}
 <h2>There is no goal with daily task status </h2>
 
-{% endif %}
+{% endif %} {% endblock %}

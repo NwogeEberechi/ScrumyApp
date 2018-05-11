@@ -1,4 +1,4 @@
-{% if message %}
+{% extends 'scrumyapp/base.html' %} {% block content %} {% if message %}
 <h2>message</h2>
 {% else %}
 <h2>Change Goal Status </h2>
@@ -12,4 +12,4 @@
 
     <button type="submit">Change Status </button>
 </form>
-{% endif %}
+{% endif %} {% endblock %}

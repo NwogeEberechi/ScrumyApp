@@ -1,6 +1,8 @@
+{% extends 'scrumyapp/base.html' %} {% block content %}
 <h2>All Goals Page</h2>
 <ul>
     {% for goal in object_list %}
     <li>{{goal}}</li>
     {% endfor %}
 </ul>
+{% endblock %}
