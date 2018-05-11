@@ -1,9 +1,6 @@
-{% if goals %}
-<ul style="list-style:none;">
-    {% for goal in goals %}
-    <li>{{ goal }}</li>
+<h2>All Goals Page</h2>
+<ul>
+    {% for goal in object_list %}
+    <li>{{goal}}</li>
     {% endfor %}
 </ul>
-{% else %}
-<h2>There is no goal with the task_id {{task_id}} </h2>
-{% endif %}

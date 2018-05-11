@@ -4,10 +4,19 @@ from django.http import HttpResponse
 from django.http import Http404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.views import generic
+
 from .models import ScrumyGoals, GoalStatus, ScrumyUser
 from .forms import AddUserForm, AddTaskForm, ChangeTaskStatusForm
 
 # Create your views here.
+class GoalIndexView(generic.ListView):
+	template_name = 'scrumyapp/goals.html'
+
+	def get_queryset(self):
+		return ScrumyGoals.objects.all()
+
+
 def index(request):
 	users = ScrumyUser.objects.all()
 	context = {'users': users}
@@ -25,7 +34,7 @@ def move_goal(request, task_id):
 	except ScrumyGoals.DoesNotExist:
 		raise Http404('There is no goal with the task_id ' + str(task_id))
 	context = {'goals':goals, 'task_id':task_id}	
-	return render(request, 'scrumyapp/goals.html', context)
+	return render(request, 'scrumyapp/goal.html', context)
 
 def add_user(request):
 	if request.method == "POST":
