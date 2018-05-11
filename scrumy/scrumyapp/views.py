@@ -1,4 +1,6 @@
+from django.contrib.auth.models import User, Group
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.http import Http404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -53,23 +55,63 @@ def get_users(request):
 	return render(request, 'scrumyapp/users.html', context)
 
 def change_task_status(request, goal_id):
-	if request.method =="POST":
-		form = ChangeTaskStatusForm(request.POST)
-		if form.is_valid:
-			new_status = request.POST.get('status_id')
-			status = GoalStatus.objects.get(id=new_status)
-			try:
-				goal = ScrumyGoals.objects.get(id=goal_id)
-			except ScrumyGoals.DoesNotExist:
-				raise Http404('There is no goal with the id ' + str(goal_id))
-			goal.status_id = status
-			# update moved_by field, but this require getting logged in user info
-			goal.save()
-			return redirect('scrumy:index')
+	message = ''
+	# check if user is authenticated
+	if request.user.is_authenticated:
+		current_user = request.user
+		current_user_group = current_user.groups.all()
+		if current_user_group : 
+			if request.method =="POST":
+				form = ChangeTaskStatusForm(request.POST)
+				if form.is_valid:
+					new_status = request.POST.get('status_id') # status from form
+					status_object = GoalStatus.objects.get(id=new_status) # new goalstatus object
+					try:
+						goal = ScrumyGoals.objects.get(id=goal_id) # goal whose status is to be changed
+						goal_status = goal.status_id # current  goal status
+					except ScrumyGoals.DoesNotExist:
+						raise Http404('There is no goal with the id ' + str(goal_id))
+					
+					# owner permission
+					if str(current_user_group[0]) == 'OWNER':
+						goal.status_id = status_object
+					
+					# admin permission 
+					elif str(current_user_group[0]) == 'ADMIN':
+						if str(goal_status) == 'DT' and status_object.status == 'V':
+							goal.status_id = status_object
+						else:
+							print('You do not have access to move to this status' )
+
+					# Quality analyst permission
+					elif str(current_user_group[0]) == 'QUALITY ANALYST':
+						if str(goal_status) == 'V' and status_object.status == 'D':
+							goal.status_id = status_object 
+						else:
+							print('You do not have access to move to this status' )
+
+					# Developer permission
+					elif str(current_user_group[0]) == 'DEVELOPER':
+						if str(goal_status) == 'WT' and status_object.status == 'DT':
+							goal.status_id = status_object 
+						else:
+							print('You do not have access to move to this status' ) 
+					else:
+						message += 'You do not have permission to change the goal status'
+						return HttpResponse('No permission defined for your group')
+						#return render(request, 'scrumyapp/changestatus.html', {'message': message})
+					# update moved_by field, but this require getting logged in user info
+					goal.save()
+					return redirect('scrumy:index')
+			else:
+				form = ChangeTaskStatusForm()
+			context = {'form': form}
+			return render(request, 'scrumyapp/changestatus.html', context)
+		else:
+			print('user does not belong to any group')
+			return HttpResponse('user does not belong  to any group')
 	else:
-		form = ChangeTaskStatusForm()
-	context = {'form': form}
-	return render(request, 'scrumyapp/changestatus.html', context)
+		return HttpResponse('Access denied, log in to access this page') # check for the right http status to use
 '''
 def login_user(request):
 	if request.method =='POST':

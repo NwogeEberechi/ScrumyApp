@@ -1,3 +1,6 @@
+{% if message %}
+<h2>message</h2>
+{% else %}
 <h2>Change Goal Status </h2>
 <form action="" method="post">
     {% csrf_token %} {% for field in form %}
@@ -9,3 +12,4 @@
 
     <button type="submit">Change Status </button>
 </form>
+{% endif %}

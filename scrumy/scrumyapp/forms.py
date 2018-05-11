@@ -10,7 +10,8 @@ class AddUserForm(forms.ModelForm):
 class AddTaskForm(forms.ModelForm):
     class Meta:
         model = ScrumyGoals
-        fields = '__all__'
+        fields = ['user_id', 'status_id', 'task']
+        #fields = '__all__'
 
 class ChangeTaskStatusForm(forms.ModelForm):
     class Meta:
