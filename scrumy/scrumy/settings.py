@@ -25,7 +25,7 @@ SECRET_KEY = '1=@h=bzd_7ujw@yb!m01%u5^3df!vi&62y1s!)t&x6y&qfy!1o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -123,3 +123,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/scrumy/'
+

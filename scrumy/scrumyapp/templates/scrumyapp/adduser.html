@@ -1,13 +1,19 @@
 {% extends 'scrumyapp/base.html' %} {% block content %}
-<h2>Hello, useer added </h2>
-<form action="" method="post">
-    {% csrf_token %} {% for field in form %}
-    <p> {{field.errors}} </p>
-    <label for="">{{ field.label_tag }}</label>
-    <div>{{ field }}</div>
+<div class="form-container">
+    <h2>Add New User </h2>
+    <form action="" method="post">
+        {% csrf_token %} {% for field in form %}
+        <p> {{field.errors}} </p>
+        <div class="form-group row">
+            <label for="" class="col-sm-4 col-form-label">{{ field.label_tag }}</label>
+            <div class="col-sm-6">
+                <div class="form-controls">{{ field }}</div>
+            </div>
+        </div>
 
-    {% endfor %}
+        {% endfor %}
 
-    <button type="submit">Add User</button>
-</form>
+        <button type="submit" class="btn-success">Add User</button>
+    </form>
+</div>
 {% endblock %}

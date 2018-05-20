@@ -1,21 +1,21 @@
 from django.db import models
+from  django.contrib.auth.models import User
 
 # Create your models here.
-class ScrumyUser(models.Model):
+class ScrumyUser(User):
+   
+    class Meta:
+        proxy = True
+    
     SCRUMY_USER_ROLE = (
         ('O', 'Owner'),
         ('A', 'Admin'),
         ('Q', 'Quality Analyst'),
         ('D', 'Developer'),
     )
-    firstname = models.CharField(max_length=50)
-    lastname = models.CharField(max_length=50)
-    email = models.EmailField(max_length=50, unique=True)
-    password = models.CharField(max_length=10)
-    role = models.CharField(max_length=1, choices=SCRUMY_USER_ROLE)
 
     def __str__(self):
-        return (self.firstname + ' ' + self.lastname)
+        return (self.first_name + ' ' + self.last_name)
 
     def get_weekly_goals(self):
         return self.scrumygoals_set.filter(status_id=3)

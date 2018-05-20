@@ -1,13 +1,19 @@
-{% extends 'scrumyapp/base.html' %} {% block content %}
-<h2>Add Task </h2>
-<form action="" method="post">
-    {% csrf_token %} {% for field in form %}
-    <p> {{field.errors}} </p>
-    <label for="">{{ field.label_tag }}</label>
-    <div>{{ field }}</div>
+{% extends 'scrumyapp/base.html' %} {% block user %} {{user.first_name}} {{user.last_name}} {% endblock %} {% block content %}
+<div class="form-container">
+    <h2>Add Task </h2>
+    <form action="" method="post">
+        {% csrf_token %} {% for field in form %}
+        <p> {{field.errors}} </p>
+        <div class="form-group row">
+            <label for="" class="col-sm-4 col-form-label">{{ field.label_tag }}</label>
+            <div class="col-sm-6">
+                <div class="form-controls">{{ field }}</div>
+            </div>
+        </div>
 
-    {% endfor %}
+        {% endfor %}
 
-    <button type="submit">Add Task</button>
-</form>
+        <button type="submit" class="btn-success">Add Task</button>
+    </form>
+</div>
 {% endblock %}

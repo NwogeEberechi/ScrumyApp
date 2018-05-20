@@ -48,15 +48,24 @@ def add_user(request):
 	return render(request, 'scrumyapp/adduser.html', context)
 
 def add_task(request):
-	if request.method =="POST":
-		form = AddTaskForm(request.POST)
-		if form.is_valid:
-			form.save()
-			return redirect('scrumy:users')
+	if request.user.is_authenticated:
+		if request.method =="POST":
+			form = AddTaskForm(request.POST)
+			if form.is_valid:
+				status = request.POST.get('status_id')
+				status_obj = GoalStatus.objects.get(id=status)
+				task = request.POST.get('task')
+				user = request.user
+				goal = ScrumyGoals(user_id = user, status_id = status_obj, task=task)
+				goal.save()
+				return redirect('scrumy:users')
+		else:
+			form = AddTaskForm()
+		context = {'form': form}
+		return render(request, 'scrumyapp/addtask.html', context)
 	else:
-		form = AddTaskForm()
-	context = {'form': form}
-	return render(request, 'scrumyapp/addtask.html', context)
+		return HttpResponse('Access denied, log in to access this page')
+
 
 def get_users(request):
 	users = ScrumyUser.objects.all()
@@ -104,7 +113,7 @@ def change_task_status(request, goal_id):
 						if str(goal_status) == 'WT' and status_object.status == 'DT':
 							goal.status_id = status_object 
 						else:
-							print('You do not have access to move to this status' ) 
+							return HttpResponse('You do not have access to move to this status')
 					else:
 						message += 'You do not have permission to change the goal status'
 						return HttpResponse('No permission defined for your group')
@@ -121,7 +130,7 @@ def change_task_status(request, goal_id):
 			return HttpResponse('user does not belong  to any group')
 	else:
 		return HttpResponse('Access denied, log in to access this page') # check for the right http status to use
-'''
+
 def login_user(request):
 	if request.method =='POST':
 		username = request.POST.get('username')
@@ -134,4 +143,4 @@ def login_user(request):
 			messages.error(request, 'Incorrect username or password')
 	context = {}
 	return render(request, 'registration/login.html', context)
-'''
+

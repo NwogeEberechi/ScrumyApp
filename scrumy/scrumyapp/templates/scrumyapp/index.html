@@ -1,6 +1,6 @@
-{% extends 'scrumyapp/base.html' %} {% load staticfiles %} {% block content %}
+{% extends 'scrumyapp/base.html' %} {% load staticfiles %} {% block user %} {{user.first_name}} {{user.last_name}} {% endblock %} {% block content %}
 <div>
-    <table border="2px solid red" padding="10px">
+    <table class="table">
         <thead>
             <th> </th>
             <th> User</th>
